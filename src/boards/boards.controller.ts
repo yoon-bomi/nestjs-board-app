@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   UsePipes,
   ValidationPipe,
@@ -24,6 +26,12 @@ export class BoardsController {
   @UsePipes(ValidationPipe)
   createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Board> {
     return this.boardsService.createBoard(createBoardDto);
+  }
+
+  @Delete('/:id')
+  //NOTE: ParseIntPipe : 파라미터가 number 로 제대로 들어오는지 check
+  deleteBoard(@Param('id', ParseIntPipe) id): Promise<void> {
+    return this.boardsService.deleteBoard(id);
   }
 
   // NOTE: Patch: 일부를 업데이트, Put: 전체를 업데이트
